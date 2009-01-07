@@ -1,0 +1,34 @@
+#summary What to expect in the next versions of Any23
+
+= Version 0.1 =
+
+The goal is to have an initial open-source release of the “RDFizer” component developed for Sindice. Focus is on getting the code in shape for publication, creating initial documentation, setting up the project infrastructure and so on. No work on features is planned.
+
+= Version 0.2 =
+
+The focus is on quality. For all core tasks, this version should be superior to what a developer could cobble together in a day or two, thus giving developers a good reason to use Any23.
+
+  * Better API
+    * Allow streaming output
+    * Deliver results grouped by extractor/entity instead of one big RDF model
+    * Allow choosing which extractors to use
+  * Alignment of the microformat mappings to [http://semanticweb.org/wiki/Microformats_in_RDF the official ones]
+  * Integrate W3C's RDFa test suite and pass all tests
+  * Switch MIME type detection to Apache Tika
+  * Switch RDF library from Jena to Sesame
+  * Flexible command-line tool
+
+= Future features =
+
+These items have not yet been assigned to a version.
+
+  * Performance test suite
+  * Keep extracted data tied back to its position in the HTML document/DOM tree
+  * Native Java RDFa support
+  * eRDF support
+  * Separate RDFa/microformat detection tool for use in crawlers
+  * Separate encoding detection tool
+  * Plugin architecture for extractors
+  * N-Quads output
+  * JSON output
+  * Integrate [http://aperture.sourceforge.net/ Aperture]
