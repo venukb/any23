@@ -10,13 +10,17 @@ See the getText(...) method of com.google.code.any23.Rover for an example.
 
 The rover script can be used to fetch a file from the Web and convert it to RDF using the Any23 library. Use it like this:
 
-rover http://twitter.com/cygri N3
+{{{rover http://twitter.com/cygri N3}}}
 
 = Starting a local Any23 server =
 
-You can start a local instance of the Any23 servlet for testing purposes. To do this, run the server script from the root directory of Any23. This will start a server (Jetty) on localhost port 8080. You can access it like this:
+You can start a local instance of the Any23 servlet for testing purposes. To do this, run the `server` script from the root directory of Any23. This will start a server (Jetty) on `localhost`, port 8080. You can access it like this:
 
 http://localhost:8080/any23/n3/http://twitter.com/cygri
+
+= Using the Any23 servlet in your own servlet container =
+
+The Ant target `war` creates a WAR file that you can deploy to your own servlet container.
 
 = Related projects =
 
