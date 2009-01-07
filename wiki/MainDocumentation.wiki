@@ -2,6 +2,9 @@
 
 This is some preliminary documentation for the [http://code.google.com/p/any23 Any23 (Anything To Triples)] library.
 
+  * SupportedFormats
+  * RoadMap
+
 = Using Any23 as a library in your own applications =
 
 See the getText(...) method of com.google.code.any23.Rover for an example.
