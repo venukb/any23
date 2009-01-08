@@ -15,8 +15,9 @@ The focus is on quality. For all core tasks, this version should be superior to 
   * Alignment of the microformat mappings to [http://semanticweb.org/wiki/Microformats_in_RDF the official ones]
   * Integrate W3C's RDFa test suite and pass all tests
   * Switch MIME type detection to Apache Tika
-  * Switch RDF library from Jena to Sesame
-  * Flexible command-line tool
+  * Flexible command-line tool for easy testing
+  * Move remaining documentation from Sindice Confluence and sindice.com to Wiki
+  * Deploy as web service at sindice.com
 
 = Future features =
 
@@ -24,6 +25,7 @@ These items have not yet been assigned to a version.
 
   * Performance test suite
   * Keep extracted data tied back to its position in the HTML document/DOM tree
+  * Switch RDF library from Jena to Sesame
   * Native Java RDFa support
   * eRDF support
   * Separate RDFa/microformat detection tool for use in crawlers
