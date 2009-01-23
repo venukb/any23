@@ -39,3 +39,4 @@ These items have not yet been assigned to a version.
   * Plugin architecture for extractors
   * JSON output
   * Dedicated homepage with integrated RSS/Twitter feed
+  * Integrate Rhino so we can extract microformats and RDFa that are encoded in Javascript
