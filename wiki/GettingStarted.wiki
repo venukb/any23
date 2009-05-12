@@ -36,27 +36,47 @@ We believe that any23 provides you and easy to use command line interface with s
    -t,--notrivial      filter trivial statements
    -v,--verbose        show progress and debug information
  }}}
- Please note, that the "*turtle*" is the *default output format*.
- * Simple usage 
- # Extract meta information from Web documents: *{{{#> sh rover <URL>}}}*
+  Please note, that the "*turtle*" is the *default output format*.
+ * *Simple* usage 
+  # Extract meta information from Web documents: *{{{#> sh rover <URL>}}}*
  {{{
 e.g.: #> sh rover http://yourdomain/yourfile
  }}}
- # Extract meta information from local files *{{{#> sh rover <PATH_TO_FILE>}}}*
+  # Extract meta information from local files *{{{#> sh rover <PATH_TO_FILE>}}}*
  {{{
 e.g.: #>sh rover /home/user/myFoaf.rdf
  }}}
- * Specify the output format, use option "*-f*" or "*--format*".
- # TURTLE - default configuration, no need for specific flag
+ * Specify the *output format*, use option "*-f*" or "*--format*".
+  # TURTLE - default configuration, no need for specific flag
  {{{
 #> sh rover foaf.rdf 
  }}}
- # RDFXML - *-f rdfxml*
+  # RDFXML - *-f rdfxml*
  {{{
 #> sh rover -f rdfxml foaf.rdf
  }}}
- # N3 - *-f ntriples*
+  # N3 - *-f ntriples*
  {{{
 #> sh rover -f ntriples foaf.rdf
  }}}
- # Quad - *-f quad* (please see further information about the "[http://challenge.semanticweb.org/ quad]" format)
+  # Quad - *-f quad* (please see further information about the "[http://challenge.semanticweb.org/ quad]" format)
+ {{{
+#> sh rover -f quad foaf.rdf
+ }}}
+
+ * Process *archives*: Use the "*-I*" option
+ Any23 supports the process of archives. Currently we only support *Zip* or *WARC* archives.  
+  # Process a zip archive
+ {{{
+#>sh rover -I zip myArchive.zip
+ }}}
+  # Process a WARC archive
+ {{{
+#>sh rover -I warc myArchive.warc
+#>sh rover -I warc myArchive.warc*.gz*
+ }}}
+ * *Filtering* trivial statements
+ By default, any23 will extract HTML/head meta information, such as links to CSS stylesheets or meta information like the author or the software used to create the html. Hence, if the user is only interested in the structured content from the HTML/body tag we offer a filter functionality, activated by the "*-t*" command line argument.
+ {{{
+#>sh rover -t foaf.rdf
+}}}
