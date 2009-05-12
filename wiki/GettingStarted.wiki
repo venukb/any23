@@ -1,8 +1,16 @@
 #summary One-sentence summary of this page.
 #labels Gettingstart
 = Installing the library =
-* The latest release is always available at the download directory.
-
+ * The latest release is always available at the [[http://code.google.com/p/any23/downloads/list download directory].
+ * For the latest snapshot please download the code from the [http://code.google.com/p/any23/source/checkout svn code repository] and build the library with the following steps:
+ # SVN checkout 
+  {{{ svn checkout http://any23.googlecode.com/svn/trunk/library any23-read-only }}} 
+ # Compile (Required library: [http://ant.apache.org/ Apache ant])
+  {{{ cd any23-read-only/ ; ant clean; ant jar }}}
+ This command compiles the source code and generate the library in the "_lib/_" folder.
+ # Build package
+  {{{ ant dist }}}
+  
 
 
 = Details =
