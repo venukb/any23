@@ -1,7 +1,8 @@
 #summary One-sentence summary of this page.
-#labels Gettingstart
+#labels Gettingstart,Usage
 = Installing the library =
  * The latest release is always available at the [[http://code.google.com/p/any23/downloads/list download directory].
+ # Download either the "*.zip" or "*.tar.gz" file and decompress the archive.
  * For the latest snapshot please download the code from the [http://code.google.com/p/any23/source/checkout svn code repository] and build the library with the following steps:
  # SVN checkout 
   {{{ svn checkout http://any23.googlecode.com/svn/trunk/library any23-read-only }}} 
@@ -10,12 +11,34 @@
  This command compiles the source code and generate the library in the "_lib/_" folder.
  # Build package
   {{{ ant dist }}}
+ This command creates the "zip" and "tar.gz" archive. 
   
+= Using Any23 =
+If you want to use any23 as a command line tool, please use the provided shell scripts "any23" and "rover(.bat)" for linux (Windows) in the "root" folder of any23.
+Please note, that the main script to run any23 is the "*rover(.bat)*" script.
+The "any23" command line tool also provides you to access testing, debugging and analysing utilities (we do not provide a documentation for this at the moment).
 
+= Examples =
+We believe that any23 provides you and easy to use command line interface with self explaining optional parameters.
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * Overview
+ {{{
+#> sh rover
+   usage: Rover [file|url] [OPTIONS]
+   where OPTIONS are:
+   -e <arg>            comma-separated list of extractors, e.g.                  
+                       rdf-xml,rdf-turtle
+   -f,--format <arg>   (turtle (default), ntriples, rdfxml,quad)
+   -I <arg>            (zip, warc)
+   -l,--log <arg>      logging, please specify a file
+   -o,--output <arg>   ouput file (defaults to stdout)
+   -s,--stats          print out statistics of Any23
+   -t,--notrivial      filter trivial statements
+   -v,--verbose        show progress and debug information
+ }}}
+ Please note, that the "*turtle*" is the *default output format*.
+ * Simple usage
+ {{{
+#> sh rover http://DOMAIN/FILE
+ }}}
+ * Specify the output format
