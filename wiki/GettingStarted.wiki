@@ -38,7 +38,20 @@ We believe that any23 provides you and easy to use command line interface with s
  }}}
  Please note, that the "*turtle*" is the *default output format*.
  * Simple usage
+ # Extract meta information from Web documents: *{{{#> sh rover <URL>}}}*
  {{{
-#> sh rover http://DOMAIN/FILE
+#> sh rover http://yourdomain/yourfile
+e.g. #>
  }}}
- * Specify the output format
+ # Extract meta information from local files
+ {{{
+#>sh rover <PATH_TO_FILE>
+ * Specify the output format, use option "*-f*" or "*--format*".
+ # TURTLE
+ {{{
+#> 
+ }}}
+ # RDFXML
+ {{{
+
+ }}}
