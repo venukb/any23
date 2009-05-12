@@ -1,7 +1,7 @@
 #summary One-sentence summary of this page.
 #labels Gettingstart,Usage
 = Installing the library =
- * The latest release is always available at the [[http://code.google.com/p/any23/downloads/list download directory].
+ * The latest release is always available at the [http://code.google.com/p/any23/downloads/list download directory].
  # Download either the "*.zip" or "*.tar.gz" file and decompress the archive.
  * For the latest snapshot please download the code from the [http://code.google.com/p/any23/source/checkout svn code repository] and build the library with the following steps:
  # SVN checkout 
