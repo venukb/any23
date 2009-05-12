@@ -37,21 +37,26 @@ We believe that any23 provides you and easy to use command line interface with s
    -v,--verbose        show progress and debug information
  }}}
  Please note, that the "*turtle*" is the *default output format*.
- * Simple usage
+ * Simple usage 
  # Extract meta information from Web documents: *{{{#> sh rover <URL>}}}*
  {{{
-#> sh rover http://yourdomain/yourfile
-e.g. #>
+e.g.: #> sh rover http://yourdomain/yourfile
  }}}
- # Extract meta information from local files
+ # Extract meta information from local files *{{{#> sh rover <PATH_TO_FILE>}}}*
  {{{
-#>sh rover <PATH_TO_FILE>
+e.g.: #>sh rover /home/user/myFoaf.rdf
+ }}}
  * Specify the output format, use option "*-f*" or "*--format*".
- # TURTLE
+ # TURTLE - default configuration, no need for specific flag
  {{{
-#> 
+#> sh rover foaf.rdf 
  }}}
- # RDFXML
+ # RDFXML - *-f rdfxml*
  {{{
-
+#> sh rover -f rdfxml foaf.rdf
  }}}
+ # N3 - *-f ntriples*
+ {{{
+#> sh rover -f ntriples foaf.rdf
+ }}}
+ # Quad - *-f quad* (please see further information about the "[http://challenge.semanticweb.org/ quad]" format)
