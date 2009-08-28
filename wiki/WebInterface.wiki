@@ -4,11 +4,18 @@
 
 Any23 includes a web interface that you can use to extract RDF from web documents. The web interface also includes a RESTful API for invoking any23.
 
-= Starting the server =
+= Running the server =
 
-Run the `server` script from the command line in order to start up the server, then go to http://localhost:8080/ to access the web interface. You can also start the server from Java by running the `org.deri.any23.servlet.Any23Server` class.
+Run the `server` script from the command line in order to start up the server, then go to http://localhost:8080/ to access the web interface. You can also start the server from Java by running the `org.deri.any23.servlet.Any23Server` class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as Apache Tomcat; type `ant war` to generate the `any23.war` file.
 
 = API documentation =
+
+== Examples ==
+  * http://localhost:8080/best/twitter.com/cygri
+  * http://localhost:8080/rdfxml/http://data.gov
+  * http://localhost:8080/ttl/http://www.w3.org/People/Berners-Lee/card
+  * http://localhost:8080/?uri=http://dbpedia.org/resource/Berlin
+  * http://localhost:8080/?format=nt&uri=http://dbpedia.org/resource/Berlin
 
 == Compact API ==
 
