@@ -1,0 +1,6 @@
+#summary This page collects the candidate logos for Any23.
+#labels Featured,logo
+
+==Candidate Logo 1==
+
+[http://any23.googlecode.com/svn/wiki/logos/logo-proposal-1.png]
