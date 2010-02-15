@@ -1,9 +1,0 @@
-#summary Describes the input formats that Any23 supports.
-
-  * RDF/XML
-  * Notation3 and Turtle
-  * N-Triples
-  * RDFa
-  * Various microformats, see this page on [http://sindice.com/developers/microformat Sindice microformat support] for slightly outdated details
-
-More details to be added.
