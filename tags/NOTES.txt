@@ -1,0 +1,11 @@
+
+---------------------
+SVN Operational Notes
+---------------------
+
+To merge the content of the trunk whitin a tag simply:
+
+   $ svn merge -r V:HEAD  trunk/any23-core/ tags/any23-TAG/any23-core/
+
+Where V is the revision of the creation / last modification of any23-TAG.
+
