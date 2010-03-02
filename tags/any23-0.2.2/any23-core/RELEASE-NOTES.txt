@@ -1,0 +1,92 @@
+==========================================================================
+  Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+              http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless  required  by  applicable  law  or agreed to in writing, software
+  distributed  under  the  License  is  distributed  on  an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See  the  License  for  the  specific language governing permissions and
+  limitations under the License.
+
+==========================================================================
+
+$Id$
+
+	                           Any23 0.2.2 
+                             Release Notes
+
+* Fixed dependency management on Maven. A second level dependency of Xerces
+  introduced a conflict on the java.xml.transform API causing wrong XSLT 
+  transformations within RDFa extractor.
+
+==========================================================================
+
+	                           Any23 0.2.1 
+                             Release Notes
+
+* Major fix on Tika configuration management. This fix solves the auto detection
+  of the main Semantic Web related formats.
+
+==========================================================================
+
+                               Any23 0.2
+                             Release Notes
+
+============
+Introduction
+============
+
+This release features a redesigned API and incorporating enhancements and
+bug fixes that have accumulated since the 0.1 release.
+Apart  from  some  new  or changed dependencies on the underlying libraries,
+this  version  comes  with an improved unit test coverage and other features
+like the automatic charset encoding detection and an improved documentation.
+Maven build system has been introduced.
+
+
+==================================
+Summary of major changes since 0.1
+==================================
+
+* Redesigned Java API
+    - Input from string, stream, file, or URI
+    - Allow choosing which extractors to use
+    - Report origin of triples (document/extractor) to client processors
+    - Various processors/serializers for extracted triples
+* Added flexible command-line tool for easy testing
+* Vastly improved website and documentation
+* Media type and encoding detection via Apache Tika
+* Switched RDF library from Jena to Sesame
+* Added Maven build
+* Better RDF extraction from Microformats
+* Extractors now come with an example file to document typical in- and output
+* Major refactoring
+* Lots and lots of bugfixes
+
+=================
+Supported formats
+=================
+
+* RDF/XML
+* Notation3 and Turtle
+* N-Triples
+* RDFa
+
+Various microformats, see http://sindice.com/developers/microformat on Sindice Microformats support.
+
+===================
+Dependency Upgrade
+===================
+
+CyberNeko Html parser has been upgraded to 1.9.14.
+
+Apache Tika 0.3 has been replaced with 0.6, with the
+new  support  for  the automatic encoding detection.
+
+EOF
+
