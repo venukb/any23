@@ -41,7 +41,7 @@
     </issueManagement>
 
     <distributionManagement>
-        <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl>
+        <!-- <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl> -->
         <!-- Any23 Google Code Maven repo -->        
         <repository>
             <id>any23-googlecode</id>
