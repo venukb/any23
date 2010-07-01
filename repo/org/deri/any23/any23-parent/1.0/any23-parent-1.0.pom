@@ -44,9 +44,11 @@
     <distributionManagement>
         <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl>
         <repository>
+            <uniqueVersion>false</uniqueVersion>
             <id>any23-googlecode</id>
             <name>Any23 Google Code Maven Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo</url>
+            <layout>default</layout>
         </repository>
     </distributionManagement>
 
