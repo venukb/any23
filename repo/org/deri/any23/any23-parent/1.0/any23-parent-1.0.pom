@@ -72,6 +72,7 @@
             <id>any23-googlecode</id>
             <name>Any23 Google Code Maven Repository</name>
             <url>http://any23.googlecode.com/svn/repo</url>
+            <layout>default</layout>            
         </repository>
         <!-- Specific repository for Aduna / Sesame related dependencies. -->
         <repository>
