@@ -28,12 +28,12 @@
     </licenses>
 
     <inceptionYear>2010</inceptionYear>
-
+    <!--
     <scm>
         <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
         <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
         <url>http://code.google.com/p/any23source/browse/trunk</url>
-    </scm>
+    </scm> -->
 
     <issueManagement>
         <system>Google Code</system>
@@ -44,6 +44,7 @@
         <!-- <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl> -->
         <!-- Any23 Google Code Maven repo -->        
         <repository>
+            <uniqueVersion>false</uniqueVersion>
             <id>any23-googlecode</id>
             <name>Any23 Google Code Release Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo</url>
