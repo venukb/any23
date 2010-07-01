@@ -46,7 +46,7 @@
         <repository>
             <id>any23-googlecode</id>
             <name>Any23 Google Code Release Repository</name>
-            <url>svn:https://any23.googlecode.com/svns</url>
+            <url>svn:https://any23.googlecode.com/svn</url>
         </repository>
     </distributionManagement>
 
