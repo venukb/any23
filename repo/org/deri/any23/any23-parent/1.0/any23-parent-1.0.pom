@@ -28,13 +28,14 @@
     </licenses>
 
     <inceptionYear>2010</inceptionYear>
-
+  <!--
     <scm>
         <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
         <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
         <url>http://code.google.com/p/any23source/browse/trunk</url>
     </scm>
 
+-->
     <issueManagement>
         <system>Google Code</system>
         <url>http://code.google.com/p/any23/issues</url>
