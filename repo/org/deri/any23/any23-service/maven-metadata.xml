@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.deri.any23</groupId>
+  <artifactId>any23-service</artifactId>
+  <version>0.4.2-SNAPSHOT</version>
+  <versioning>
+    <versions>
+      <version>0.4.2-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20101019092020</lastUpdated>
+  </versioning>
+</metadata>
