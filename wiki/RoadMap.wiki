@@ -15,6 +15,6 @@ TODO: Turn these into Issues in the tracker, assuming there's anyone who champio
   * Separate RDFa/microformat detection tool for use in crawlers
   * Separate encoding detection tool
   * Plugin architecture for extractors
-  * JSON output
+  * ~~JSON output~~
   * Dedicated homepage with integrated RSS/Twitter feed
   * Integrate Rhino so we can extract microformats and RDFa that are encoded in Javascript
