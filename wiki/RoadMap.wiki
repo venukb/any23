@@ -8,8 +8,8 @@ TODO: Turn these into Issues in the tracker, assuming there's anyone who champio
   * Move remaining documentation from Sindice Confluence and sindice.com to the developers site
   * Add support for archive input: ZIP, WARC, possibly ARC
   * Integrate MetaX (which includes Aperture; check licenses for compatibility first!)
-  * Add support for N-Quads input and output
-  * Add test suite for MIME type detection
+  * ~~Add support for N-Quads input and output~~
+  * ~~Add test suite for MIME type detection~~
   * Performance test suite
   * Native Java RDFa support
   * Separate RDFa/microformat detection tool for use in crawlers
