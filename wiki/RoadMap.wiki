@@ -5,7 +5,7 @@ TODO: Turn these into Issues in the tracker, assuming there's anyone who champio
 = Possible future features =
 
   * ~~Integrate W3C's RDFa test suite and pass all tests~~
-  * Move remaining documentation from Sindice Confluence and sindice.com to the developers site
+  * ~~Move remaining documentation from Sindice Confluence and sindice.com to the developers site~~
   * Add support for archive input: ZIP, WARC, possibly ARC
   * Integrate MetaX (which includes Aperture; check licenses for compatibility first!)
   * ~~Add support for N-Quads input and output~~
