@@ -11,7 +11,7 @@ TODO: Turn these into Issues in the tracker, assuming there's anyone who champio
   * ~~Add support for N-Quads input and output~~
   * ~~Add test suite for MIME type detection~~
   * ~~Performance test suite~~
-  * Native Java RDFa support
+  * ~~Native Java RDFa support~~
   * Separate RDFa/microformat detection tool for use in crawlers
   * Separate encoding detection tool
   * Plugin architecture for extractors
