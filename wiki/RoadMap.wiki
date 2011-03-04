@@ -12,9 +12,9 @@ TODO: Turn these into Issues in the tracker, assuming there's anyone who champio
   * ~~Add test suite for MIME type detection~~
   * ~~Performance test suite~~
   * ~~Native Java RDFa support~~
-  * Separate RDFa/microformat detection tool for use in crawlers
-  * Separate encoding detection tool
-  * Plugin architecture for extractors
+  * ~~Separate RDFa/microformat detection tool for use in crawlers~~
+  * ~~Separate encoding detection tool~~
+  * ~~Plugin architecture for extractors~~
   * ~~JSON output~~
   * Dedicated homepage with integrated RSS/Twitter feed
   * Integrate Rhino so we can extract microformats and RDFa that are encoded in Javascript (See https://github.com/isaacs/env-js)
