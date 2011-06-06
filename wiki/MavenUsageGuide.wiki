@@ -22,23 +22,23 @@ To use *Any23* with Maven you must first declare the following repository in you
 
 Then you can declare the following dependencies:
 
-The library core:
+The library Core:
 
 {{{
 <dependency>
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-core</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.5.0</version>
 </dependency>
 }}}
 
-Optionally the service:
+Optionally the REST Service:
 
 {{{
 <dependency>
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-service</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.5.0</version>
 </dependency>
 }}}
 
