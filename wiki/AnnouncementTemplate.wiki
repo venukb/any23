@@ -24,7 +24,10 @@ Thanks for supporting our work.
 The Any23 Developers Team
 
 {{{[1]}}} http://dev.w3.org/html5/md/
+
 {{{[2]}}} http://www.ietf.org/rfc/rfc4180.txt
+
 {{{[3]}}} http://code.google.com/p/any23/issues/list
 {{{[4]}}} http://any23.org
+
 {{{[5]}}} http://any23.googlecode.com/svn/trunk/RELEASE-NOTES.txt
