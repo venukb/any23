@@ -1,7 +1,5 @@
 #summary this page contains a template for Any23 announcement in various public ML of interest
 
-= Introduction =
-
 Dear all,
 
 the Any23 team is proud to announce the Any23 _put your version here_ release.
