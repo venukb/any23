@@ -1,0 +1,30 @@
+#summary this page contains a template for Any23 announcement in various public ML of interest
+
+= Introduction =
+
+Dear all,
+
+the Any23 team is proud to announce the Any23 _[put your version here]_ release.
+This latest release formally introduces some new valuable features including
+HTML5 Microdata[1] support, RDF representation of CSV[2] files, an improved API to
+programatically configure the library and various bug fixings.
+As usual everybody is invited to adopt this new release and report any encountered bug.
+
+A live demo is running at [4], please feel free to try it.
+
+We’re planning the milestone 0.6.1, so if you are waiting for the fix of
+a particular improvement please submit it to us using our issue tracker[3].
+
+Below an extract of the _[put your version here]_ release note [5]:
+
+_[add automatically generated release notes here]_
+
+Thanks for supporting our work.
+
+The Any23 Developers Team
+
+[1] http://dev.w3.org/html5/md/
+[2] http://www.ietf.org/rfc/rfc4180.txt
+[3] http://code.google.com/p/any23/issues/list
+[4] http://any23.org
+[5] http://any23.googlecode.com/svn/trunk/RELEASE-NOTES.txt
