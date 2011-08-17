@@ -34,22 +34,23 @@ function transitState(currState, c) {
     // Openings.
     if     (currLocation == Location.PRE_SUBJECT && c == '<') ret = Location.WRITING_SUB_URI;
     else if(currLocation == Location.PRE_SUBJECT && c == '_') ret = Location.WRITING_BNODE_URI;
-    else if(currLocation == Location.PRE_PRED && c == '<')    ret = Location.WRITING_PRED_URI;
-    else if(currLocation == Location.PRE_OBJ  && c == '<')    ret = Location.WRITING_OBJ_URI;
-    else if(currLocation == Location.PRE_OBJ  && c == '_')    ret = Location.WRITING_OBJ_BNODE;
-    else if(currLocation == Location.PRE_OBJ  && c == '"')    ret = Location.WRITING_OBJ_LITERAL;
+    else if(currLocation == Location.PRE_PRED    && c == '<') ret = Location.WRITING_PRED_URI;
+    else if(currLocation == Location.PRE_OBJ     && c == '<') ret = Location.WRITING_OBJ_URI;
+    else if(currLocation == Location.PRE_OBJ     && c == '_') ret = Location.WRITING_OBJ_BNODE;
+    else if(currLocation == Location.PRE_OBJ     && c == '"') ret = Location.WRITING_OBJ_LITERAL;
     
     // Closing.
-    else if(currLocation == Location.WRITING_SUB_URI   && c == '>') ret = Location.PRE_PRED;
-    else if(currLocation == Location.WRITING_BNODE_URI && c == ' ') ret = Location.PRE_PRED;
-    else if(currLocation == Location.WRITING_PRED_URI  && c == '>') ret = Location.PRE_OBJ;
-    else if(currLocation == Location.WRITING_OBJ_URI     && c == '>') ret = Location.POST_OBJ; // TODO: space could not pe specified.
-    else if(currLocation == Location.WRITING_OBJ_BNODE   && c == ' ') ret = Location.POST_OBJ; // TODO: space could not pe specified.
-    else if(currLocation == Location.WRITING_OBJ_LITERAL && c == '"') ret = Location.POST_OBJ; // TODO: space could not pe specified.
+    else if(currLocation == Location.WRITING_SUB_URI     && c == '>') ret = Location.PRE_PRED;
+    else if(currLocation == Location.WRITING_BNODE_URI   && c == ' ') ret = Location.PRE_PRED;
+    else if(currLocation == Location.WRITING_PRED_URI    && c == '>') ret = Location.PRE_OBJ;
+    else if(currLocation == Location.WRITING_OBJ_URI     && c == '>') ret = Location.POST_OBJ;
+    else if(currLocation == Location.WRITING_OBJ_BNODE   && c == ' ') ret = Location.POST_OBJ;
+    else if(currLocation == Location.WRITING_OBJ_LITERAL && c == '"') ret = Location.POST_OBJ;
     
     else if(currLocation == Location.WRITING_OBJ_LITERAL && c == '@') ret = Location.WRITING_LIT_LANG;
     else if(currLocation == Location.WRITING_OBJ_LITERAL && c == '^') ret = Location.WRITING_LIT_TYPE;
-    else if(currLocation == Location.WRITING_LIT_LANG || currLocation == Location.WRITING_LIT_TYPE && c == ' ') ret = Location.POST_OBJ;
+    else if(currLocation == Location.WRITING_LIT_LANG && c == ' ') ret = Location.POST_OBJ;
+    else if(currLocation == Location.WRITING_LIT_TYPE && c == '>') ret = Location.POST_OBJ;
     
     // Reset.
     else if(currLocation == Location.POST_OBJ && c == '.') ret = Location.PRE_SUBJECT;    
@@ -57,7 +58,7 @@ function transitState(currState, c) {
     // Error
     else ret = Location.ERROR;
     
-    console.log('char ' + c + ' curr location: ' + currLocation + ' next location: ' + ret);
+    //console.log('char ' + c + ' curr location: ' + currLocation + ' next location: ' + ret);
     currState.location=ret;
 }
 CodeMirror.defineMode("ntriples", function() {  
@@ -65,28 +66,42 @@ CodeMirror.defineMode("ntriples", function() {
   untilEndURI = function(c) { return c != '>'; };
   return {
     startState: function() {
-       return { location : Location.PRE_SUBJECT, inside : false };
+       return { 
+           location : Location.PRE_SUBJECT,
+           uris     : [],
+           anchors  : [],
+           bnodes   : [],
+           langs    : [],
+           types    : []
+       };
     },
     token: function(stream, state) {
       var ch = stream.next();
       if(ch == '<') {
          transitState(state, ch);
-         stream.eatWhile( function(c) { return c != '#' && c != '>'; } );
+         var parsedURI = '';
+         stream.eatWhile( function(c) { if( c != '#' && c != '>' ) { parsedURI += c; return true; } return false;} );
+         state.uris.push(parsedURI);
          if( stream.match('#', false) ) return 'uri';
-         stream.eatWhile(untilEndURI);
          stream.next();
          transitState(state, '>');
          return 'uri';
       }
       if(ch == '#') {
-        stream.eatWhile(untilEndURI);
-        stream.next();
-        transitState(state, '>');
+        var parsedAnchor = '';
+        stream.eatWhile(function(c) { if(c != '>' && c != ' ') { parsedAnchor+= c; return true; } return false});
+        state.anchors.push(parsedAnchor);
         return 'uri-anchor';
+      }
+      if(ch == '>') {
+          transitState(state, '>');
+          return 'uri';
       }
       if(ch == '_') {
           transitState(state, ch);
-          stream.eatWhile(untilSpace);
+          var parsedBNode = '';
+          stream.eatWhile(function(c) { if( c != ' ' ) { parsedBNode += c; return true; } return false;});
+          state.bnodes.push(parsedBNode);
           stream.next();
           transitState(state, ' ');
           return 'bnode';
@@ -101,20 +116,27 @@ CodeMirror.defineMode("ntriples", function() {
           return 'literal';
       }
       if( ch == '@' ) {
-          stream.next();
           transitState(state, '@');
-          stream.eatWhile(untilSpace);
+          var parsedLang = '';
+          stream.eatWhile(function(c) { if( c != ' ' ) { parsedLang += c; return true; } return false;});
+          state.langs.push(parsedLang);
           stream.next();
           transitState(state, ' ');
           return 'literal-lang';
       }
       if( ch == '^' ) {
+          //if( stream.peek() != '^' ) return;
           stream.next();
           transitState(state, '^');
-          stream.eatWhile(untilSpace);
+          var parsedType = '';
+          stream.eatWhile(function(c) { if( c != '>' ) { parsedType += c; return true; } return false;} );
+          state.types.push(parsedType);
           stream.next();
-          transitState(state, ' ');
+          transitState(state, '>');
           return 'literal-type';
+      }
+      if( ch == ' ' ) {
+          transitState(state, ch);
       }
       if( ch == '.' ) {
           transitState(state, ch);
