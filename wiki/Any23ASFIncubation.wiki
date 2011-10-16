@@ -1,7 +1,15 @@
 #labels Featured
-The Sindice Team is proud to announce that Any23 has been accepted{{{[1]}}} 
+<font color="red" size="5" >IMPORTANT ANNOUNCEMENT</font>
+<p>
+Starting from release <font color="red">0.7.1</font> the Any23 project code base
+and the development resources will be migrated to the new [http://incubator.apache.org/projects/any23.html ASF Incubation site].
+For further details see [Any23ASFIncubation here].
+</p>
 
+<p>
+The Sindice Team is proud to announce that Any23 has been accepted{{{[1]}}} 
 as ASF (Apache Software Foundation) Incubator{{{[2]}}} project.
+</p>
 
 We agreed with the new Apache Any23 team to migrate every project
 
