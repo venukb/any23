@@ -40,7 +40,7 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
-        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.NTriples, 802);
+        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.NTriples, 800);
     }
 
     /**
@@ -50,7 +50,7 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {
-        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 2065);
+        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 2060);
     }
 
     private void serializeVocabularies(RDFSchemaUtils.VocabularyFormat format, int expectedLines) {
