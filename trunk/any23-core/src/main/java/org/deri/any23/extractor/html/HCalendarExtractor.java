@@ -116,7 +116,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
         HTMLDocument compoNode = new HTMLDocument(node);
         BNode evt = valueFactory.createBNode();
-        addURIProperty(evt, RDF.TYPE, vICAL.getResource(component));
+        addURIProperty(evt, RDF.TYPE, vICAL.getClass(component));
         addTextProps(compoNode, evt);
         addUrl(compoNode, evt);
         addRRule(compoNode, evt);
