@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Test case for {@link RDFSchemaUtils}.
@@ -36,7 +37,7 @@ public class RDFSchemaUtilsTest {
     /**
      * Test case for
      * {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabularies(
-     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.OutputStream)} with <i>NTriples</i> format.
+     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.PrintStream)} with <i>NTriples</i> format.
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
@@ -46,16 +47,18 @@ public class RDFSchemaUtilsTest {
     /**
      * Test case for
      * {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabularies(
-     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.OutputStream)} with <i>RDFXML</i> format.
+     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.PrintStream)} with <i>RDFXML</i> format.
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {
-        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 2055);
+        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 2055 + 30); // Effective lines + separators.
     }
 
     private void serializeVocabularies(RDFSchemaUtils.VocabularyFormat format, int expectedLines) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        RDFSchemaUtils.serializeVocabularies(format, baos);
+        final PrintStream ps = new PrintStream(baos);
+        RDFSchemaUtils.serializeVocabularies(format, ps);
+        ps.close();
         final String output = baos.toString();
         logger.debug(output);
         final int occurrences= StringUtils.countOccurrences(output, "\n");
