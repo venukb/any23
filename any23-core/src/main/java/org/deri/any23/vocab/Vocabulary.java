@@ -19,9 +19,16 @@ package org.deri.any23.vocab;
 import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.URI;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Base class for the definition of a vocabulary.
@@ -30,6 +37,16 @@ import java.util.Map;
  * @version $Id$
  */
 public abstract class Vocabulary {
+
+    /**
+     * Allows to add comments to <code>namespaces</code>,
+     * <code>classes</code> and <code>properties</code>.
+     */
+    @Target({FIELD})
+    @Retention(RUNTIME)
+    @interface Comment {
+        String value();
+    }
 
     /**
      * Vocabulary namespace.
@@ -45,6 +62,11 @@ public abstract class Vocabulary {
      * Map of vocabulary properties.
      */
     private Map<String,URI> properties;
+
+    /**
+     * Map any resource with the relative comment.
+     */
+    private Map<URI,String> resourceToCommentMap;
 
     /**
      * Constructor.
@@ -149,6 +171,28 @@ public abstract class Vocabulary {
         final Collection<URI> uris = properties.values();
         return uris.toArray( new URI[ uris.size() ] );
     }
+
+    /**
+     * Returns all the defined comments for resources.
+     *
+     * @return unmodifiable list of comments.
+     */
+    public Map<URI,String> getComments() {
+        fillResourceToCommentMap();
+        return Collections.unmodifiableMap(resourceToCommentMap);
+    }
+
+    /**
+     * Returns the comment for the given resource.
+     *
+     * @param resource input resource to have a comment.
+     * @return the human readable comment associated to the
+     *         given resource.
+     */
+    public String getCommentFor(URI resource) {
+        fillResourceToCommentMap();
+        return resourceToCommentMap.get(resource);
+    }
     
     /**
      * Creates a URI.
@@ -201,6 +245,23 @@ public abstract class Vocabulary {
      */
     private URI createURI(String namespace, String localName) {
         return RDFUtils.uri(namespace, localName);
+    }
+
+    private void fillResourceToCommentMap() {
+        if(resourceToCommentMap != null) return;
+        final Map<URI,String> newMap = new HashMap<URI, String>();
+        for (Field field : this.getClass().getFields()) {
+            try {
+                final Object value = field.get(this);
+                if(value instanceof URI) {
+                    final Comment comment = field.getAnnotation(Comment.class);
+                    if(comment != null) newMap.put((URI) value, comment.value());
+                }
+            } catch (IllegalAccessException iae) {
+                throw new RuntimeException("Error while creating resource to comment map.", iae);
+            }
+        }
+        resourceToCommentMap = newMap;
     }
 
 }
