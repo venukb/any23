@@ -39,7 +39,7 @@ public abstract class Vocabulary {
     /**
      * Map of vocabulary resources.
      */
-    private Map<String,URI> resources;
+    private Map<String,URI> classes;
 
     /**
      * Map of vocabulary properties.
@@ -67,13 +67,13 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Returns a resource defined within this vocabulary.
+     * Returns a class defined within this vocabulary.
      *
-     * @param name resource name.
+     * @param name class name.
      * @return the URI associated to such resource.
      */
-    public URI getResource(String name) {
-        URI res = resources.get(name);
+    public URI getClass(String name) {
+        URI res = classes.get(name);
         if (null == res) {
             throw new IllegalArgumentException("Unknown resource name '" + name + "'");
         }
@@ -118,7 +118,7 @@ public abstract class Vocabulary {
      * @param property property name.
      * @return property URI.
      */
-    public URI getPropertyCamelized(String property) {
+    public URI getPropertyCamelCase(String property) {
         String[] names = property.split("\\W");
         String camelCase = names[0];
         for (int i = 1; i < names.length; i++) {
@@ -129,13 +129,13 @@ public abstract class Vocabulary {
     }
 
     /**
-     * @return the list of all defined resources.
+     * @return the list of all defined classes.
      */
-    public URI[] getResources() {
-        if(resources == null) {
+    public URI[] getClasses() {
+        if(classes == null) {
             return new URI[0];
         }
-        final Collection<URI> uris = resources.values();
+        final Collection<URI> uris = classes.values();
         return uris.toArray( new URI[ uris.size() ] );
     }
 
@@ -149,7 +149,7 @@ public abstract class Vocabulary {
         final Collection<URI> uris = properties.values();
         return uris.toArray( new URI[ uris.size() ] );
     }
-
+    
     /**
      * Creates a URI.
      *
@@ -161,18 +161,18 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Creates a resource and register it to the {@link #resources} map.
+     * Creates a resource and register it to the {@link #classes} map.
      *
      * @param namespace vocabulary namespace.
      * @param resource name of the resource.
      * @return the created resource URI.
      */
-    protected URI createResource(String namespace, String resource) {
+    protected URI createClass(String namespace, String resource) {
         URI res = createURI(namespace, resource);
-        if(resources == null) {
-            resources = new HashMap<String, URI>(10);
+        if(classes == null) {
+            classes = new HashMap<String, URI>(10);
         }
-        resources.put(resource, res);
+        classes.put(resource, res);
         return res;
     }
 

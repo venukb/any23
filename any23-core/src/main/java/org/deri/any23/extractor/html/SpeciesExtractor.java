@@ -147,7 +147,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
     private URI resolveClassName(String clazz) {
         String upperCaseClass = clazz.substring(0, 1);
-        return vWO.getResource(
+        return vWO.getClass(
                 String.format("%s%s",
                         upperCaseClass.toUpperCase(),
                         clazz.substring(1)

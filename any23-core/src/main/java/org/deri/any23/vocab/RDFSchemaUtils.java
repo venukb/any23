@@ -88,7 +88,7 @@ public class RDFSchemaUtils {
     throws RDFHandlerException {
         serializeVocabulary(
                 vocabulary.getNamespace(),
-                vocabulary.getResources(),
+                vocabulary.getClasses(),
                 vocabulary.getProperties(),
                 writer
         );

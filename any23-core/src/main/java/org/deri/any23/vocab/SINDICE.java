@@ -94,8 +94,8 @@ public class SINDICE extends Vocabulary {
     public final URI date = createProperty(DATE);
 
 
-    private URI createResource(String localName) {
-        return createResource(NS, localName);
+    private URI createClass(String localName) {
+        return createClass(NS, localName);
     }
 
     private URI createProperty(String localName) {
