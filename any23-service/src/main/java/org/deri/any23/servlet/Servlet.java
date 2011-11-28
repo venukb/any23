@@ -243,14 +243,20 @@ public class Servlet extends HttpServlet {
         return true;
     }
 
-    // TODO: add possibility to specify validation={none|validate|validate+fix}
+    private ValidationMode getValidationMode(HttpServletRequest request) {
+        final String PARAMETER = "validation-mode";
+        final String validationMode = request.getParameter(PARAMETER);
+        if(validationMode == null) return ValidationMode.None;
+        if("none".equalsIgnoreCase(validationMode)) return ValidationMode.None;
+        if("validate".equalsIgnoreCase(validationMode)) return ValidationMode.Validate;
+        if("validate-fix".equalsIgnoreCase(validationMode)) return ValidationMode.ValidateAndFix;
+        throw new IllegalArgumentException(
+                String.format("Invalid value '%s' for '%s' parameter.", validationMode, PARAMETER)
+        );
+    }
+    
     private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
-        final ValidationMode mode =
-                request.getParameter("fix") != null
-                        ?
-                ValidationMode.ValidateAndFix
-                        :
-                ValidationMode.None;
+        final ValidationMode mode = getValidationMode(request);
         return new ExtractionParameters(DefaultConfiguration.singleton(), mode);
     }
 
