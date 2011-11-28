@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -509,9 +510,8 @@ public class Any23PluginManager {
             final ClassFilter filter,
             Set<Class<T>> result
     ) throws IOException {
-        final File codePath = new File(
-                this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()
-        );
+        final String fileURL = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        final File codePath = new File( URLDecoder.decode(fileURL, "UTF-8") );
         if (codePath.isDirectory()) {
             getClassesInPackageFromDir(codePath, packageName, filter, result);
         } else {
