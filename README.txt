@@ -241,14 +241,4 @@ Upload the produced packages in download section:
    http://code.google.com/p/any23/downloads/list
 
 
-Fix Release Procedure
----------------------
-
-   Currently the *plugins/integration-test* module is excluded from the parent
-   reactor.
-   To fix it in tag follow procedure as described at issue #171:
-
-        http://code.google.com/p/any23/issues/detail?id=171
-
-
 EOF
