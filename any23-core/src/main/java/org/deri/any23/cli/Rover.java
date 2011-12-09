@@ -31,6 +31,7 @@ import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.SingleDocumentExtraction;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
+import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.BenchmarkTripleHandler;
 import org.deri.any23.writer.LoggingTripleHandler;
 import org.deri.any23.writer.NQuadsWriter;
@@ -51,6 +52,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
@@ -59,9 +61,9 @@ import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
  * A default rover implementation. Goes and fetches a URL using an hint
  * as to what format should require, then tries to convert it to RDF.
  *
- * @author Gabriele Renzi
- * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ * @author Gabriele Renzi
  */
 @ToolRunner.Description("Any23 Command Line Tool.")
 public class Rover implements Tool {
@@ -77,89 +79,90 @@ public class Rover implements Tool {
 
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
-    private static Options options;
+    private Options options;
+
+    private CommandLine commandLine;
+
+    private boolean verbose = false;
+
+    private PrintStream outputStream;
+    private TripleHandler tripleHandler;
+    private ReportingTripleHandler reportingTripleHandler;
+    private BenchmarkTripleHandler benchmarkTripleHandler;
+
+    private ExtractionParameters eps;
+    private Any23 any23;
 
     public static void main(String[] args) {
         System.exit( new Rover().run(args) );
     }
 
     public int run(String[] args) {
-        final CommandLineParser parser = new PosixParser();
-        final CommandLine commandLine;
-
-        boolean verbose = false;
         try {
-            options = createOptions();
-            commandLine = parser.parse(options, args);
-
-            if (commandLine.hasOption("h")) {
-                printHelp();
-                return 0;
-            }
-
-            if (commandLine.hasOption('v')) {
-                verbose = true;
-                LogUtil.setVerboseLogging();
-            } else {
-                LogUtil.setDefaultLogging();
-            }
-
-            if (commandLine.getArgs().length < 1) {
-                printHelp();
-                throw new IllegalArgumentException("Expected at least 1 argument.");
-            }
-
-            final String[] inputURIs      = argumentsToURIs(commandLine.getArgs());
-            final String[] extractorNames = getExtractors(commandLine);
-
-            PrintStream outputStream    = null;
-            TripleHandler tripleHandler = null;
-            try {
-                outputStream  = getOutputStream(commandLine);
-
-                tripleHandler = getTripleHandler(commandLine, outputStream);
-
-                tripleHandler = decorateWithLogHandler(commandLine, tripleHandler);
-
-                tripleHandler = decorateWithStatisticsHandler(commandLine, tripleHandler);
-                final BenchmarkTripleHandler benchmarkTripleHandler =
-                        tripleHandler instanceof BenchmarkTripleHandler ? (BenchmarkTripleHandler) tripleHandler : null;
-
-                tripleHandler = decorateWithAccidentalTriplesFilter(commandLine, tripleHandler);
-
-                final ReportingTripleHandler reportingTripleHandler = new ReportingTripleHandler(tripleHandler);
-
-                final ExtractionParameters eps = getExtractionParameters(commandLine);
-
-                final Any23 any23 = createAny23(extractorNames);
-
-                final long start = System.currentTimeMillis();
-                for(String inputURI : inputURIs) {
-                    performExtraction(any23, eps, inputURI, reportingTripleHandler);
-                }
-                final long elapsed = System.currentTimeMillis() - start;
-
-                closeAll(tripleHandler, outputStream);
-
-                if (benchmarkTripleHandler != null) {
-                    System.err.println( benchmarkTripleHandler.report() );
-                }
-
-                logger.info("Extractors used: " + reportingTripleHandler.getExtractorNames());
-                logger.info(reportingTripleHandler.getTotalTriples() + " triples, " + elapsed + "ms");
-            } finally {
-                closeAll(tripleHandler, outputStream);
-            }
+            final String[] uris = configure(args);
+            performExtraction(uris);
+            return 0;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            final int exitCode = e instanceof SpecificExitException ? ((SpecificExitException) e).exitCode : 1;
+            System.err.println( e.getMessage() );
+            final int exitCode = e instanceof ExitCodeException ? ((ExitCodeException) e).exitCode : 1;
             if(verbose) e.printStackTrace(System.err);
             return exitCode;
         }
-        return 0;
     }
 
-    private Options createOptions() {
+    protected CommandLine getCommandLine() {
+        if(commandLine == null) throw new IllegalStateException("Rover must be configured first.");
+        return commandLine;
+    }
+
+    protected String[] configure(String[] args) throws Exception {
+        final CommandLineParser parser = new PosixParser();
+        options = createOptions();
+        commandLine = parser.parse(options, args);
+
+        if (commandLine.hasOption("h")) {
+            printHelp();
+            throw new ExitCodeException(0);
+        }
+
+        if (commandLine.hasOption('v')) {
+            verbose = true;
+            LogUtil.setVerboseLogging();
+        } else {
+            LogUtil.setDefaultLogging();
+        }
+
+        if (commandLine.getArgs().length < 1) {
+            printHelp();
+            throw new IllegalArgumentException("Expected at least 1 argument.");
+        }
+
+        final String[] inputURIs = argumentsToURIs(commandLine.getArgs());
+        final String[] extractorNames = getExtractors(commandLine);
+
+        try {
+            outputStream  = getOutputStream(commandLine);
+            tripleHandler = getTripleHandler(commandLine, outputStream);
+            tripleHandler = decorateWithLogHandler(commandLine, tripleHandler);
+            tripleHandler = decorateWithStatisticsHandler(commandLine, tripleHandler);
+
+            benchmarkTripleHandler =
+                    tripleHandler instanceof BenchmarkTripleHandler ? (BenchmarkTripleHandler) tripleHandler : null;
+
+            tripleHandler = decorateWithAccidentalTriplesFilter(commandLine, tripleHandler);
+
+            reportingTripleHandler = new ReportingTripleHandler(tripleHandler);
+            eps = getExtractionParameters(commandLine);
+            any23 = createAny23(extractorNames);
+
+            return inputURIs;
+        } catch (Exception e) {
+            closeStreams();
+            throw e;
+        }
+    }
+
+    protected Options createOptions() {
         final Options options = new Options();
         options.addOption(
                 new Option("v", "verbose", false, "Show debug and progress information.")
@@ -206,6 +209,29 @@ public class Rover implements Tool {
                 new Option("d", "defaultns", true, "Override the default namespace used to produce statements.")
         );
         return options;
+    }
+
+    protected void performExtraction(DocumentSource documentSource) {
+        performExtraction(any23, eps, documentSource, reportingTripleHandler);
+    }
+
+    protected void performExtraction(String[] inputURIs) throws URISyntaxException, IOException {
+        try {
+            final long start = System.currentTimeMillis();
+            for (String inputURI : inputURIs) {
+                performExtraction( any23.createDocumentSource(inputURI) );
+            }
+            final long elapsed = System.currentTimeMillis() - start;
+
+            if (benchmarkTripleHandler != null) {
+                System.err.println(benchmarkTripleHandler.report());
+            }
+
+            logger.info("Extractors used: " + reportingTripleHandler.getExtractorNames());
+            logger.info(reportingTripleHandler.getTotalTriples() + " triples, " + elapsed + "ms");
+        } finally {
+            closeStreams();
+        }
     }
 
     private void printHelp() {
@@ -346,42 +372,48 @@ public class Rover implements Tool {
         return any23;
     }
 
-    private void performExtraction(Any23 any23, ExtractionParameters eps, String documentURI, TripleHandler th) {
+    private void performExtraction(
+            Any23 any23, ExtractionParameters eps, DocumentSource documentSource, TripleHandler th
+    ) {
         try {
-            if (! any23.extract(eps, documentURI, th).hasMatchingExtractors()) {
-                throw new SpecificExitException("No suitable extractors found.", 2);
+            if (! any23.extract(eps, documentSource, th).hasMatchingExtractors()) {
+                throw new ExitCodeException("No suitable extractors found.", 2);
             }
         } catch (ExtractionException ex) {
-            throw new SpecificExitException("Exception while extracting metadata.", ex, 3);
+            throw new ExitCodeException("Exception while extracting metadata.", ex, 3);
         } catch (IOException ex) {
-            throw new SpecificExitException("Exception while producing output.", ex, 4);
+            throw new ExitCodeException("Exception while producing output.", ex, 4);
         }
     }
 
-    private void closeHandler(TripleHandler th) {
-        if(th == null) return;
+    private void closeHandler() {
+        if(tripleHandler == null) return;
         try {
-            th.close();
+            tripleHandler.close();
         } catch (TripleHandlerException the) {
-            throw new SpecificExitException("Error while closing TripleHandler", the, 5);
+            throw new ExitCodeException("Error while closing TripleHandler", the, 5);
         }
     }
 
-    private void closeAll(TripleHandler th, PrintStream os) {
-             closeHandler(th);
-            if(os != null) os.close();
+    private void closeStreams() {
+             closeHandler();
+            if(outputStream != null) outputStream.close();
     }
 
-    private class SpecificExitException extends RuntimeException {
+    private class ExitCodeException extends RuntimeException {
 
         private final int exitCode;
 
-        public SpecificExitException(String message, Throwable cause, int exitCode) {
+        public ExitCodeException(String message, Throwable cause, int exitCode) {
             super(message, cause);
             this.exitCode = exitCode;
         }
-        public SpecificExitException(String message, int exitCode) {
+        public ExitCodeException(String message, int exitCode) {
             super(message);
+            this.exitCode = exitCode;
+        }
+        public ExitCodeException(int exitCode) {
+            super();
             this.exitCode = exitCode;
         }
     }
