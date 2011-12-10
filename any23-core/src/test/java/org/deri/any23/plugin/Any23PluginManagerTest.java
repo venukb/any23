@@ -86,13 +86,13 @@ public class Any23PluginManagerTest {
     @Test
     public <T> void testGetClassesFromClasspath() throws IOException {
         Set<Class<T>> clazzes = manager.getClassesInPackage("org.deri.any23.plugin", null);
-        Assert.assertEquals(4, clazzes.size());
+        Assert.assertTrue(clazzes.size() >= 4);
     }
 
     @Test
     public void testGetTools() throws IOException {
         Class<Tool>[] tools = manager.getTools();
-        Assert.assertEquals(7, tools.length);
+        Assert.assertTrue(tools.length >= 7);
     }
 
     @Test
