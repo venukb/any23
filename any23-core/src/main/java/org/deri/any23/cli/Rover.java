@@ -93,6 +93,10 @@ public class Rover implements Tool {
     private ExtractionParameters eps;
     private Any23 any23;
 
+    protected boolean isVerbose() {
+        return verbose;
+    }
+
     public static void main(String[] args) {
         System.exit( new Rover().run(args) );
     }
@@ -400,7 +404,7 @@ public class Rover implements Tool {
             if(outputStream != null) outputStream.close();
     }
 
-    private class ExitCodeException extends RuntimeException {
+    protected class ExitCodeException extends RuntimeException {
 
         private final int exitCode;
 
@@ -415,6 +419,10 @@ public class Rover implements Tool {
         public ExitCodeException(int exitCode) {
             super();
             this.exitCode = exitCode;
+        }
+
+        protected int getExitCode() {
+            return exitCode;
         }
     }
 
