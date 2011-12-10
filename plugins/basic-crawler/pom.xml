@@ -102,7 +102,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>${project.artifactId}-${project.version}-extractor-plugin</finalName>
+                    <finalName>${project.artifactId}-${project.version}-cli-plugin</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
