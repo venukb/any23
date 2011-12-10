@@ -30,6 +30,7 @@ done
 # Plugins classpath.
 for jar in $(find $ANY23_ROOT/../$PLUGINS_DIR/*/target -name "*-plugin.jar" -depth 1)
 do
+  echo Detected plugin $(basename $jar) [$(dirname $jar)]
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"
 done
