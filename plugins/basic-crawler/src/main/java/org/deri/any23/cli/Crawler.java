@@ -37,17 +37,19 @@ import java.util.regex.PatternSyntaxException;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@ToolRunner.Description("Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 
     public static void main(String[] args) {
         try {
-            System.exit( new Crawler().runCrawler(args) );
+            System.exit( new Crawler().run(args) );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public int runCrawler(String[] args) throws Exception {
+    @Override
+    public int run(String[] args) {
         try {
             final String[] seeds = super.configure(args);
             if(seeds.length != 1) throw new IllegalArgumentException("Expected just one seed.");
