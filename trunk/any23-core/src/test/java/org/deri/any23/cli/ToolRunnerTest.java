@@ -31,7 +31,7 @@ public class ToolRunnerTest {
     @Test
     public void testGetToolsInClasspath() throws IOException {
         Class<Tool>[] tools = ToolRunner.getToolsInClasspath();
-        Assert.assertEquals(7, tools.length);
+        Assert.assertTrue(tools.length >= 7);
     }
 
 }
