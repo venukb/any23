@@ -194,9 +194,9 @@ public class Any23Test extends Any23OnlineTestBase {
         /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*5*/ TripleHandler handler = new NTriplesWriter(out);
               try {
-        /*6*/ runner.extract(source, handler);
+        /*6*/     runner.extract(source, handler);
               } finally {
-        /*7*/   handler.close();
+        /*7*/     handler.close();
               }
         /*8*/ String n3 = out.toString("UTF-8");
 
@@ -227,8 +227,11 @@ public class Any23Test extends Any23OnlineTestBase {
               );
         /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*6*/ TripleHandler handler = new NTriplesWriter(out);
-        /*7*/ runner.extract(source, handler);
-        /*8*/ handler.close();
+              try {
+        /*7*/     runner.extract(source, handler);
+              } finally {
+        /*8*/     handler.close();
+              }
         /*9*/ String n3 = out.toString("UTF-8");
 
         /*
