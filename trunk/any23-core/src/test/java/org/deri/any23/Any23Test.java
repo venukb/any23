@@ -198,14 +198,14 @@ public class Any23Test extends Any23OnlineTestBase {
               } finally {
         /*7*/     handler.close();
               }
-        /*8*/ String n3 = out.toString("UTF-8");
+        /*8*/ String nt = out.toString("UTF-8");
 
         /*
             <http://example.org/ns#bar> <http://example.org/ns#> <http://other.example.org/ns#> .
             <http://other.example.org/ns#bar> <http://other.example.org/ns#> <http://example.org/ns#bar> .
          */
-        logger.debug("n3: " + n3);
-        Assert.assertTrue(n3.length() > 0);
+        logger.debug("nt: " + nt);
+        Assert.assertTrue(nt.length() > 0);
     }
 
     /**
