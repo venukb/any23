@@ -500,7 +500,7 @@ public class NQuadsParser extends RDFParserBase {
 
         if ( dh.equals(DatatypeHandling.VERIFY) ) {
             if( ! XMLDatatypeUtil.isBuiltInDatatype(datatype)){
-                throw new RDFParseException( String.format("Unsupported datatype %s", datatype), row, col);
+                return value;
             }
             if( ! XMLDatatypeUtil.isValidValue(value, datatype) ) {
                 throw new RDFParseException(

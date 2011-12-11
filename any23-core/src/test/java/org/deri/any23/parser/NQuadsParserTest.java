@@ -444,26 +444,49 @@ public class NQuadsParserTest {
         parseLocationListener.assertListener(400, 348);
     }
 
-    @Test(expected = RDFParseException.class)
-    public void testStatementWithInvalidDatatypeAndStrictValidation()
+    @Test
+    public void testStatementWithInvalidLiteralContentAndIgnoreValidation()
     throws RDFHandlerException, IOException, RDFParseException {
-        final ByteArrayInputStream bais = new ByteArrayInputStream(
-                (
-                "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
-                "<http://dbpedia.org/property/mandatofine> " +
-                "\"1380.0\"^^<http://dbpedia.org/datatype/second> " +
-                "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
-                ).getBytes()
-        );
-        parser.parse(bais, "http://base-uri");
+        verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling.IGNORE);
+    }
+
+    @Test(expected = RDFParseException.class)
+    public void testStatementWithInvalidLiteralContentAndStrictValidation()
+    throws RDFHandlerException, IOException, RDFParseException {
+        verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling.VERIFY);
     }
 
     @Test
-    public void testStatementWithInvalidDatatypeAndTolerantValidation()
+    public void testStatementWithInvalidDatatypeAndIgnoreValidation()
+    throws RDFHandlerException, IOException, RDFParseException {
+        verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling.IGNORE);
+    }
+
+    @Test
+    public void testStatementWithInvalidDatatypeAndVerifyValidation()
+    throws RDFHandlerException, IOException, RDFParseException {
+        verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling.VERIFY);
+    }
+
+    private void verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling datatypeHandling)
+    throws RDFHandlerException, IOException, RDFParseException {
+       final ByteArrayInputStream bais = new ByteArrayInputStream(
+                (
+                "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
+                "<http://dbpedia.org/property/mandatofine> " +
+                "\"1380.0\"^^<http://www.w3.org/2001/XMLSchema#int> " + // Float declared as int.
+                "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
+                ).getBytes()
+        );
+        parser.setDatatypeHandling(datatypeHandling);
+        parser.parse(bais, "http://base-uri");
+    }
+
+    private void verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling datatypeHandling)
     throws RDFHandlerException, IOException, RDFParseException {
         TestRDFHandler rdfHandler = new TestRDFHandler();
         parser.setRDFHandler(rdfHandler);
-        parser.setDatatypeHandling(RDFParser.DatatypeHandling.IGNORE);
+        parser.setDatatypeHandling(datatypeHandling);
         final ByteArrayInputStream bais = new ByteArrayInputStream(
                 (
                         "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
