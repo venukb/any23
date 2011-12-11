@@ -39,6 +39,7 @@ import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
+import org.deri.any23.writer.TriXWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.deri.any23.writer.TurtleWriter;
@@ -73,6 +74,7 @@ public class Rover implements Tool {
     private static final String TURTLE_FORMAT  = "turtle";
     private static final String NTRIPLE_FORMAT = "ntriples";
     private static final String RDFXML_FORMAT  = "rdfxml";
+    private static final String TRIX_FORMAT    = "trix";
     private static final String NQUADS_FORMAT  = "nquads";
     private static final String JSON_FORMAT    = "json";
     private static final String URIS_FORMAT    = "uris";
@@ -191,6 +193,7 @@ public class Rover implements Tool {
                                 TURTLE_FORMAT  + " (default), " +
                                 NTRIPLE_FORMAT + ", " +
                                 RDFXML_FORMAT  + ", " +
+                                TRIX_FORMAT    + ", " +
                                 NQUADS_FORMAT  + ", " +
                                 JSON_FORMAT    + ", " +
                                 URIS_FORMAT    +
@@ -312,6 +315,8 @@ public class Rover implements Tool {
             outputHandler = new NTriplesWriter(os);
         } else if (RDFXML_FORMAT.equalsIgnoreCase(format)) {
             outputHandler = new RDFXMLWriter(os);
+        } else if (TRIX_FORMAT.equalsIgnoreCase(format)) {
+            outputHandler = new TriXWriter(os);
         } else if (NQUADS_FORMAT.equalsIgnoreCase(format)) {
             outputHandler = new NQuadsWriter(os);
         } else if (JSON_FORMAT.equalsIgnoreCase(format)) {
