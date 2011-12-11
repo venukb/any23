@@ -23,6 +23,7 @@ import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
@@ -223,7 +224,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncoding() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller");
@@ -234,7 +236,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncodingWithQuery() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller?appo=xxx");
@@ -245,7 +248,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncodingWithFragment() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller#abcde");
