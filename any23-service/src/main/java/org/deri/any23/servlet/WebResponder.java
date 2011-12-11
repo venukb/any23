@@ -253,11 +253,11 @@ class WebResponder {
     }
 
     private boolean initRdfWriter(String format, boolean report) throws IOException {
-        FormatWriter fw = getFormatWriter(format);
+        final FormatWriter fw = getFormatWriter(format);
         if (fw == null) {
             sendError(
                     400,
-                    "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads",
+                    "Invalid format '" + format + "', try one of: [rdfxml, turtle, ntriples, nquads, trix, json]",
                     null,
                     null,
                     report
@@ -289,6 +289,9 @@ class WebResponder {
         }
         if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
             return new NQuadsWriter(byteOutStream);
+        }
+        if("trix".equals(format)) {
+            return new TriXWriter(byteOutStream);
         }
         if("json".equals(format)) {
             return new JSONWriter(byteOutStream);

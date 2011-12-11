@@ -83,8 +83,9 @@ function init() {
           <option value="best" selected="selected">best</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
-          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
+          <option value="nquads">nquads</option>
+          <option value="trix">trix</option>
           <option value="json">json</option>
         </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
       </code>
@@ -119,8 +120,9 @@ function init() {
           <option value="best" selected="selected">best (content-negotiated)</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
-          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
+          <option value="nquads">nquads</option>
+          <option value="trix">trix</option>
           <option value="json">json</option>
         </select>
           Validation:
@@ -188,6 +190,7 @@ function init() {
       <tr><th>Turtle</th><td><code>text/turtle</code></td></tr>
       <tr><th>N-Triples</th><td><code>text/nt</code></td></tr>
       <tr><th>N-Quads</th><td><code>text/nq</code></td></tr>
+      <!--<tr><th>TriX</th><td><code>application/trix</code></td></tr>-->
     </table>
     <p>Example POST request:</p>
     <pre>POST <span id="app-path">/</span>rdfxml HTTP/1.0
@@ -225,6 +228,8 @@ Content-Length: 174
         <a href="http://www.w3.org/TR/rdf-testcases/#ntriples" target="_blank">N-Triples</a></li>
       <li><code>nquads</code>, <code>nq</code> for
         <a href="http://sw.deri.org/2008/07/n-quads/" target="_blank">N-Quads</a></li>
+      <li><code>trix</code> for
+        <a href="http://www.w3.org/2004/03/trix/" target="_blank">TriX</a></li>
       <li><code>rdfxml</code>, <code>rdf</code>, <code>xml</code> for
         <a href="http://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a></li>
       <li><code>json</code> for <a href="http://json.org/" target="_blank">JSON</a></li>
