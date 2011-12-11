@@ -33,6 +33,7 @@ import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.BenchmarkTripleHandler;
+import org.deri.any23.writer.JSONWriter;
 import org.deri.any23.writer.LoggingTripleHandler;
 import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
@@ -73,6 +74,7 @@ public class Rover implements Tool {
     private static final String NTRIPLE_FORMAT = "ntriples";
     private static final String RDFXML_FORMAT  = "rdfxml";
     private static final String NQUADS_FORMAT  = "nquads";
+    private static final String JSON_FORMAT    = "json";
     private static final String URIS_FORMAT    = "uris";
 
     private static final String DEFAULT_FORMAT = TURTLE_FORMAT;
@@ -190,6 +192,7 @@ public class Rover implements Tool {
                                 NTRIPLE_FORMAT + ", " +
                                 RDFXML_FORMAT  + ", " +
                                 NQUADS_FORMAT  + ", " +
+                                JSON_FORMAT    + ", " +
                                 URIS_FORMAT    +
                         "]"
                 )
@@ -311,6 +314,8 @@ public class Rover implements Tool {
             outputHandler = new RDFXMLWriter(os);
         } else if (NQUADS_FORMAT.equalsIgnoreCase(format)) {
             outputHandler = new NQuadsWriter(os);
+        } else if (JSON_FORMAT.equalsIgnoreCase(format)) {
+            outputHandler = new JSONWriter(os);
         } else if (URIS_FORMAT.equalsIgnoreCase(format)) {
             outputHandler = new URIListWriter(os);
         } else {
