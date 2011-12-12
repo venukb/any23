@@ -33,17 +33,11 @@ import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.BenchmarkTripleHandler;
-import org.deri.any23.writer.JSONWriter;
 import org.deri.any23.writer.LoggingTripleHandler;
-import org.deri.any23.writer.NQuadsWriter;
-import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
-import org.deri.any23.writer.TriXWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
-import org.deri.any23.writer.TurtleWriter;
-import org.deri.any23.writer.URIListWriter;
+import org.deri.any23.writer.WriterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,16 +64,8 @@ import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
 @ToolRunner.Description("Any23 Command Line Tool.")
 public class Rover implements Tool {
 
-    // Supported formats.
-    private static final String TURTLE_FORMAT  = "turtle";
-    private static final String NTRIPLE_FORMAT = "ntriples";
-    private static final String RDFXML_FORMAT  = "rdfxml";
-    private static final String TRIX_FORMAT    = "trix";
-    private static final String NQUADS_FORMAT  = "nquads";
-    private static final String JSON_FORMAT    = "json";
-    private static final String URIS_FORMAT    = "uris";
-
-    private static final String DEFAULT_FORMAT = TURTLE_FORMAT;
+    private static final String[] FORMATS = WriterRegistry.getInstance().getIdentifiers();
+    private static final int DEFAULT_FORMAT_INDEX = 0;
 
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
@@ -189,15 +175,7 @@ public class Rover implements Tool {
                         "f",
                         "Output format",
                         true,
-                        "[" +
-                                TURTLE_FORMAT  + " (default), " +
-                                NTRIPLE_FORMAT + ", " +
-                                RDFXML_FORMAT  + ", " +
-                                TRIX_FORMAT    + ", " +
-                                NQUADS_FORMAT  + ", " +
-                                JSON_FORMAT    + ", " +
-                                URIS_FORMAT    +
-                        "]"
+                        "[" +  printFormats(FORMATS, DEFAULT_FORMAT_INDEX) + "]"
                 )
         );
         options.addOption(
@@ -247,6 +225,16 @@ public class Rover implements Tool {
     private void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("[{<url>|<file>}]+", options, true);
+    }
+
+    private String printFormats(String[] formats, int defaultIndex) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < formats.length; i++) {
+            sb.append(formats[i]);
+            if(i == defaultIndex) sb.append(" (default)");
+            if(i < formats.length - 1) sb.append(", ");
+        }
+        return sb.toString();
     }
 
     private String argumentToURI(String uri) {
@@ -304,31 +292,17 @@ public class Rover implements Tool {
 
     private TripleHandler getTripleHandler(CommandLine cl, OutputStream os) {
         final String FORMAT_OPTION = "f";
-        String format = DEFAULT_FORMAT;
+        String format = FORMATS[DEFAULT_FORMAT_INDEX];
         if (cl.hasOption(FORMAT_OPTION)) {
-            format = cl.getOptionValue(FORMAT_OPTION);
+            format = cl.getOptionValue(FORMAT_OPTION).toLowerCase();
         }
-        final TripleHandler outputHandler;
-        if (TURTLE_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new TurtleWriter(os);
-        } else if (NTRIPLE_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new NTriplesWriter(os);
-        } else if (RDFXML_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new RDFXMLWriter(os);
-        } else if (TRIX_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new TriXWriter(os);
-        } else if (NQUADS_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new NQuadsWriter(os);
-        } else if (JSON_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new JSONWriter(os);
-        } else if (URIS_FORMAT.equalsIgnoreCase(format)) {
-            outputHandler = new URIListWriter(os);
-        } else {
+        try {
+            return WriterRegistry.getInstance().getWriterInstanceByIdentifier(format, os);
+        } catch (Exception e) {
             throw new IllegalArgumentException(
                     String.format("Invalid option value '%s' for option %s", format, FORMAT_OPTION)
             );
         }
-        return outputHandler;
     }
 
     private TripleHandler decorateWithAccidentalTriplesFilter(CommandLine cl, TripleHandler in) {
