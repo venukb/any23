@@ -16,18 +16,27 @@
 
 package org.deri.any23.writer;
 
-import java.io.OutputStream;
-
 /**
- * <a href="http://www.w3.org/2004/03/trix/">TriX</a> format writer implementation.
+ * This annotation describes {@link FormatWriter} metadata.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Writer(identifier = "trix", mimeType = "application/trix")
-public class TriXWriter extends RDFWriterTripleHandler implements FormatWriter {
+@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@java.lang.annotation.Target({java.lang.annotation.ElementType.TYPE})
+public @interface Writer {
 
-    public TriXWriter(OutputStream out) {
-        super( new org.openrdf.rio.trix.TriXWriter(out) );
-    }
+    /**
+     * The mnemonic identifier for the format.
+     *
+     * @return a not <code>null</code> identifier.
+     */
+    String identifier();
+
+    /**
+     * The MIME type used by the writer.
+     *
+     * @return a not <code>null</code> MIME type.
+     */
+    String mimeType();
 
 }

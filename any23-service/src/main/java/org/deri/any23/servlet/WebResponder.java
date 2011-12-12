@@ -43,6 +43,8 @@ import java.util.List;
  */
 class WebResponder {
 
+    private static final WriterRegistry writerRegistry = WriterRegistry.getInstance();
+
     /**
      * Library facade.
      */
@@ -264,7 +266,7 @@ class WebResponder {
             );
             return false;
         }
-        outputMediaType = fw.getMIMEType();
+        outputMediaType = WriterRegistry.getMimeType( fw.getClass() );
         List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
         tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
         tripleHandlers.add(new CountingTripleHandler());
@@ -275,28 +277,25 @@ class WebResponder {
     }
 
     private FormatWriter getFormatWriter(String format) throws IOException {
+        final String finalFormat;
         if ("rdf".equals(format) || "xml".equals(format) || "rdfxml".equals(format)) {
-            return new RDFXMLWriter(byteOutStream);
+            finalFormat = "rdfxml";
+        } else if ("turtle".equals(format) || "ttl".equals(format)) {
+            finalFormat = "turtle";
+        } else if ("n3".equals(format)) {
+            finalFormat = "turtle";
+        } else if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
+            finalFormat = "ntriples";
+        } else if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
+            finalFormat = "nquads";
+        } else if("trix".equals(format)) {
+            finalFormat = "trix";
+        } else if("json".equals(format)) {
+            finalFormat = "json";
+        } else {
+            return null;
         }
-        if ("turtle".equals(format) || "ttl".equals(format)) {
-            return new TurtleWriter(byteOutStream);
-        }
-        if ("n3".equals(format)) {
-            return new TurtleWriter(byteOutStream, true);
-        }
-        if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
-            return new NTriplesWriter(byteOutStream);
-        }
-        if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
-            return new NQuadsWriter(byteOutStream);
-        }
-        if("trix".equals(format)) {
-            return new TriXWriter(byteOutStream);
-        }
-        if("json".equals(format)) {
-            return new JSONWriter(byteOutStream);
-        }
-        return null;
+        return writerRegistry.getWriterInstanceByIdentifier(finalFormat, byteOutStream);
     }
 
 }
