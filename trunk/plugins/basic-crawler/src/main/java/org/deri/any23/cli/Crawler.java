@@ -40,6 +40,8 @@ import java.util.regex.PatternSyntaxException;
 @ToolRunner.Description("Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 
+    private final Object roverLock = new Object();
+
     public static void main(String[] args) {
         try {
             System.exit( new Crawler().run(args) );
@@ -82,17 +84,31 @@ public class Crawler extends Rover {
                     final String pageURL = page.getWebURL().getURL();
                     System.err.println( String.format("Processing page: [%s]", pageURL) );
                     try {
-                        Crawler.super.performExtraction(
-                                new StringDocumentSource(
-                                        page.getHTML(),
-                                        pageURL
+                        synchronized (roverLock) {
+                            Crawler.super.performExtraction(
+                                    new StringDocumentSource(
+                                            page.getHTML(),
+                                            pageURL
 
-                                )
-                        );
+                                    )
+                            );
+                        }
                     } catch (Exception e) {
                         System.err.println(
                                 String.format("Error while processing page [%s], error: %s .", pageURL, e.getMessage())
                         );
+                    }
+                }
+            });
+
+            Runtime.getRuntime().addShutdownHook( new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        System.err.println( Crawler.super.printReports() );
+                        // siteCrawler.stop(); // TODO: cause shutdown hanging.
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });
@@ -119,7 +135,7 @@ public class Crawler extends Rover {
                 new Option("pagefilter"     , true, "Regex used to filter out page URLs during crawling. Default: '" + SiteCrawler.DEFAULT_PAGE_FILTER_RE + "'")
         );
         options.addOption(
-                new Option("storagefolder"  , true, "Folder used to store crawler temporary data. Default: " + System.getProperty("java.io.tmpdir") )
+                new Option("storagefolder"  , true, "Folder used to store crawler temporary data. Default: [" + System.getProperty("java.io.tmpdir")  + "]")
         );
         options.addOption(
                 new Option("numcrawlers"    , true, "Sets the number of crawlers. Default: " + SiteCrawler.DEFAULT_NUM_OF_CRAWLERS)
