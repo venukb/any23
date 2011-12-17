@@ -82,7 +82,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hlisting",
                     PopularPrefixes.createSubset("rdf", "hlisting"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hlisting.html",
                     HListingExtractor.class
             );
 
