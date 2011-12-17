@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.parser;
+package org.deri.any23.io.nquads;
 
 import org.openrdf.rio.RDFFormat;
 

@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.parser;
+package org.deri.any23.io.nquads;
 
 import org.deri.any23.util.ReaderInputStream;
 import org.openrdf.model.BNode;

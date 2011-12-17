@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.parser;
+package org.deri.any23.io.nquads;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -46,7 +46,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 
 /**
- * Test case for {@link org.deri.any23.parser.NQuadsParser}.
+ * Test case for {@link org.deri.any23.io.nquads.NQuadsParser}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

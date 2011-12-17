@@ -27,7 +27,7 @@ import java.io.OutputStream;
 public class NQuadsWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public NQuadsWriter(OutputStream os) {
-        super( new org.deri.any23.parser.NQuadsWriter(os) );
+        super( new org.deri.any23.io.nquads.NQuadsWriter(os) );
     }
 
 }

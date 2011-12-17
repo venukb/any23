@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.parser;
+package org.deri.any23.io.nquads;
 
 import org.deri.any23.rdf.RDFUtils;
 import org.junit.After;
@@ -33,7 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Test case for {@link org.deri.any23.parser.NQuadsWriter}.
+ * Test case for {@link org.deri.any23.io.nquads.NQuadsWriter}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
