@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.deri.any23;
+package org.deri.any23.util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 /**
  * Provides specific application logger configuration methods.
  */
-public class LogUtil {
+public class LogUtils {
 
     public static void setDefaultLogging() {
         Logger.getLogger("").setLevel(Level.WARNING);

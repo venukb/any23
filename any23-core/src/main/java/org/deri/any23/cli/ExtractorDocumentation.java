@@ -16,7 +16,7 @@
 
 package org.deri.any23.cli;
 
-import org.deri.any23.LogUtil;
+import org.deri.any23.util.LogUtils;
 import org.deri.any23.extractor.ExampleInputOutput;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.Extractor;
@@ -60,7 +60,7 @@ public class ExtractorDocumentation implements Tool {
     }
 
     public int run(String[] args) {
-        LogUtil.setDefaultLogging();
+        LogUtils.setDefaultLogging();
         try {
             if (args.length == 0) {
                 printUsage();

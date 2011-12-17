@@ -23,7 +23,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
-import org.deri.any23.LogUtil;
+import org.deri.any23.util.LogUtils;
 import org.deri.any23.configuration.Configuration;
 import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
@@ -121,9 +121,9 @@ public class Rover implements Tool {
 
         if (commandLine.hasOption('v')) {
             verbose = true;
-            LogUtil.setVerboseLogging();
+            LogUtils.setVerboseLogging();
         } else {
-            LogUtil.setDefaultLogging();
+            LogUtils.setDefaultLogging();
         }
 
         if (commandLine.getArgs().length < 1) {
