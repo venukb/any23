@@ -57,7 +57,7 @@ public class Any23PluginManagerTest {
     @Test
     public <T> void testGetClassesInPackageFromJAR() throws IOException {
         Set<Class<T>> classes = new HashSet<Class<T>>();
-                manager.getClassesInPackageFromJAR(
+                manager.loadClassesInPackageFromJAR(
                         TARGET_TEST_JAR,
                         "org.hsqldb.store",
                         null,
@@ -74,7 +74,7 @@ public class Any23PluginManagerTest {
         decompressJar(TARGET_TEST_JAR, tmpDir);
 
         Set<Class<T>> classes = new HashSet<Class<T>>();
-        manager.getClassesInPackageFromDir(
+        manager.loadClassesInPackageFromDir(
                 tmpDir,
                 "org.hsqldb.store",
                 null,

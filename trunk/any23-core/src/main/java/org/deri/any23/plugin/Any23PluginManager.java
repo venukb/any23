@@ -235,7 +235,7 @@ public class Any23PluginManager {
                 errors.add(t);
             }
         }
-        return errors.toArray( new Throwable[errors.size()] );
+        return errors.toArray(new Throwable[errors.size()]);
     }
 
     /**
@@ -252,12 +252,12 @@ public class Any23PluginManager {
     public synchronized <T> Set<Class<T>> getClassesInPackage(final String packageName, final ClassFilter filter)
     throws IOException {
         final Set<Class<T>> result = new HashSet<Class<T>>();
-        getClassesInPackageFromClasspath(packageName, filter, result);
+        loadClassesInPackageFromClasspath(packageName, filter, result);
         for(File jar : dynamicClassLoader.jars) {
-            getClassesInPackageFromJAR(jar, packageName, filter, result);
+            loadClassesInPackageFromJAR(jar, packageName, filter, result);
         }
         for(File dir : dynamicClassLoader.dirs) {
-            getClassesInPackageFromDir(dir, packageName, filter, result);
+            loadClassesInPackageFromDir(dir, packageName, filter, result);
         }
         return result;
     }
@@ -403,7 +403,7 @@ public class Any23PluginManager {
      * @param result list for writing result.
      * @throws java.io.IOException
      */
-    protected <T> void getClassesInPackageFromJAR(
+    protected <T> void loadClassesInPackageFromJAR(
             File jarFile,
             String packageName,
             ClassFilter filter,
@@ -449,7 +449,7 @@ public class Any23PluginManager {
      * @param <T> class types.
      * @throws MalformedURLException
      */
-    protected <T> void getClassesInPackageFromDir(
+    protected <T> void loadClassesInPackageFromDir(
             File classDir,
             final String packageName,
             final ClassFilter filter,
@@ -505,24 +505,50 @@ public class Any23PluginManager {
      * @param <T>
      * @throws IOException
      */
-    protected <T> void getClassesInPackageFromClasspath(
+    protected <T> void loadClassesInPackageFromClasspath(
             final String packageName,
             final ClassFilter filter,
             Set<Class<T>> result
     ) throws IOException {
-        final String fileURL = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        final File codePath = new File( URLDecoder.decode(fileURL, "UTF-8") );
-        if (codePath.isDirectory()) {
-            getClassesInPackageFromDir(codePath, packageName, filter, result);
-        } else {
-            getClassesInPackageFromJAR(codePath, packageName, filter, result);
+        final String[] classpathEntries = getClasspathEntries();
+        for (String classPathEntry : classpathEntries) {
+            if(classPathEntry.trim().length() == 0) continue;
+            final File codePath = new File(URLDecoder.decode(classPathEntry, "UTF-8"));
+            if (codePath.isDirectory()) {
+                loadClassesInPackageFromDir(codePath, packageName, filter, result);
+            } else {
+                loadClassesInPackageFromJAR(codePath, packageName, filter, result);
+            }
         }
     }
 
+    /**
+     * @return the classpath entries.
+     */
+    private String[] getClasspathEntries() {
+        final String classpath          = System.getProperty("java.class.path");
+        assert classpath != null : "Class path is null.";
+        final String classpathSeparator = System.getProperty("path.separator");
+        assert classpathSeparator != null : "Class path separator is null.";
+        return classpath.split("\\" + classpathSeparator);
+    }
+
+    /**
+     * Checks if the class name is valid.
+     *
+     * @param clazzName
+     * @return
+     */
     private boolean isValidClassName(String clazzName) {
         return clazzName.endsWith(".class") && ! clazzName.contains("$");
     }
 
+    /**
+     * Converts a column separated list of dirs in a list of files.
+     *
+     * @param pluginDirsList
+     * @return
+     */
     private File[] getPluginLocations(String pluginDirsList) {
         final String[] locationsStr = pluginDirsList.split(PLUGIN_DIRS_LIST_SEPARATOR);
         final List<File> locations = new ArrayList<File>();
