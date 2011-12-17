@@ -222,6 +222,13 @@ public class Rover implements Tool {
         }
     }
 
+    protected String printReports() {
+        final StringBuilder sb = new StringBuilder();
+        if(benchmarkTripleHandler != null) sb.append( benchmarkTripleHandler.report() ).append('\n');
+        if(reportingTripleHandler != null) sb.append( reportingTripleHandler.printReport() ).append('\n');
+        return sb.toString();
+    }
+
     private void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("[{<url>|<file>}]+", options, true);
