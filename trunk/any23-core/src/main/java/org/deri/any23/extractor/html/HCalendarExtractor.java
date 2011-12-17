@@ -53,7 +53,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
                     "html-mf-hcalendar",
                     PopularPrefixes.createSubset("rdf", "ical"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hcalendar.html",
                     HCalendarExtractor.class);
 
     private static final String[] Components = {"Vevent", "Vtodo", "Vjournal", "Vfreebusy"};

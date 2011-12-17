@@ -44,7 +44,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-species",
                     PopularPrefixes.createSubset("rdf", "wo"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-species.html",
                     SpeciesExtractor.class
             );
 
