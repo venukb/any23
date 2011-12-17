@@ -19,7 +19,7 @@ package org.deri.any23.extractor.rdf;
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.parser.NQuadsParser;
+import org.deri.any23.io.nquads.NQuadsParser;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
@@ -120,7 +120,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.deri.any23.parser.NQuadsParser}.
+     * Returns a new instance of a configured {@link org.deri.any23.io.nquads.NQuadsParser}.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
