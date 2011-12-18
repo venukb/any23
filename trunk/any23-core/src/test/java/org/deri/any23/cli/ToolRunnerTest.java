@@ -20,6 +20,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Test case for {@link ToolRunner}.
@@ -28,10 +31,19 @@ import java.io.IOException;
  */
 public class ToolRunnerTest {
 
+    private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>(){{
+        add(ExtractorDocumentation.class);
+        add(MicrodataParser.class);
+        add(PluginVerifier.class);
+        add(Rover.class);
+        add(Version.class);
+        add(VocabPrinter.class);
+    }};
+
     @Test
     public void testGetToolsInClasspath() throws IOException {
         Class<Tool>[] tools = ToolRunner.getToolsInClasspath();
-        Assert.assertTrue(tools.length >= 7);
+        Assert.assertTrue("Some core tools have not been detected.", coreTools.containsAll(Arrays.asList(tools)));
     }
 
 }

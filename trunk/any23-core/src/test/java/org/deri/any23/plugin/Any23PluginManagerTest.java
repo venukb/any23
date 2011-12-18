@@ -92,7 +92,7 @@ public class Any23PluginManagerTest {
     @Test
     public void testGetTools() throws IOException {
         Class<Tool>[] tools = manager.getTools();
-        Assert.assertTrue(tools.length >= 7);
+        Assert.assertTrue(tools.length > 0); // NOTE: Punctual tool detection verification done by ToolRunnerTest.java
     }
 
     @Test
@@ -101,6 +101,7 @@ public class Any23PluginManagerTest {
         Assert.assertEquals(0, extractorPlugins.length);
     }
 
+    // TODO: move in FileUtils
     private void decompressJar(File jarFile, File destination) throws IOException {
         final int BUFFER = 1024 * 1024;
         BufferedOutputStream dest = null;
