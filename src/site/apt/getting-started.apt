@@ -34,13 +34,13 @@ Getting started with <<Any23>>
 any23-core/bin$ ./any23tools
 Usage: ToolRunner <utility> [options...]
  where <utility> is one of:
-	Version                        Prints out the current library version and configuration information.
-	Crawler                                                             Any23 Crawler Command Line Tool.
-	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Any23.
+	ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
+	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
+	MimeDetector                                                                MIME Type Detector Tool.
 	PluginVerifier                                           Utility for plugin management verification.
 	Rover                                                                       Any23 Command Line Tool.
-	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
-	ExtractorDocumentation                Utility for obtaining documentation about metadata extractors
+	Version                        Prints out the current library version and configuration information.
+	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Any23.
 +-------------------------------------------
 
    The <any23tools> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
@@ -48,19 +48,21 @@ Usage: ToolRunner <utility> [options...]
 
    The <any23-core> CLI tools are:
 
-       * <<<Rover>>>: the RDF extraction tool.
-
        * <<<ExtractorDocumentation>>>: a utility for obtaining useful information about extractors.
 
        * <<<MicrodataParser>>>:  commandline parser to extract specific Microdata content from a web page
-                        (local or remote) and produce a JSON output compliant with the Microdata
-                        specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
+         (local or remote) and produce a JSON output compliant with the Microdata
+         specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
+
+       * <<<MimeDetector>>>: detects the MIME Type for any HTTP / file / direct input resource.
+
+       * <<<PluginVerifier>>>: a utility for verifying <Any23> plugins.
+
+       * <<<Rover>>>: the RDF extraction tool.
 
        * <<<Version>>>: prints out useful information about the library version and configuration.
 
        * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Any23.
-       
-       * <<<Eval>>>: commandline utility for processing Any23 generated output logs.
 
 ** Rover
    
@@ -186,10 +188,31 @@ Usage: {http://path/to/resource.html|file:/path/to/local.file}
 
 ** VocabPrinter
 
-   The VocabPrinter prints out the RDFSchema declared by all the <<Any23>>
+   The VocabPrinter Tool prints out the RDFSchema declared by all the <<Any23>>
    declared vocabularies.
 
    <<This tool is still in beta version.>>
+
+** MimeDetector
+
+   The MimeDetector Tool extracts the <<MIME Type>> for a given source (http:// file:// inline://).
+
+   Examples:
+
++--------------------------------------
+any23-core/bin$ ./any23tools MimeDetector http://www.michelemostarda.com/foaf.rdf
+application/rdf+xml
+
+any23-core/bin$ ./any23tools MimeDetector file://../src/test/resources/application/trix/test1.trx
+application/trix
+
+any23-core/bin$ ./any23tools MimeDetector 'inline://<http://s> <http://p> <http://o> .'
+text/n3
++--------------------------------------
+
+** PluginVerifier
+
+   TODO: missing.
 
 * <<Any23>> CLI <Plugins>
 

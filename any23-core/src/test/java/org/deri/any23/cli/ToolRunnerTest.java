@@ -34,6 +34,7 @@ public class ToolRunnerTest {
     private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>(){{
         add(ExtractorDocumentation.class);
         add(MicrodataParser.class);
+        add(MimeDetector.class);
         add(PluginVerifier.class);
         add(Rover.class);
         add(Version.class);
