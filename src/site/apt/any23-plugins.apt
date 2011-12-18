@@ -21,6 +21,12 @@ Any23 Plugins
 
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
 
+   TODO: plugin support in CLI
+
+   TODO: plugin support in library
+
+   TODO: plugin support in Any23 Service
+
     Any implementation of <ExtractorPlugin> will automatically registered to the
     {{{./xref/org/deri/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
 
@@ -116,3 +122,12 @@ public class Version implements Tool {
     <Microsoft Office> document formats.
 
     These plugins are documented {{{./plugin-office-scraper.html}here}}.
+
+* Available CLI Tool Plugins
+
+  * Crawler CLI Tool
+
+    The {{{./xref/org/deri/any23/cli/Crawler.html}Crawler CLI Tool}} is an extension of the
+    {{{./xref/org/deri/any23/cli/Rover.html}Rover CLI Tool}} to add site crawling basic
+    capabilities. More information about the <CLI> can be found at
+    {{{./getting-started.html#crawler-tool}Getting Started - Crawler Tool}} section.
