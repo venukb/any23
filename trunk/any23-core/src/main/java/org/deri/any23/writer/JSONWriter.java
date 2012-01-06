@@ -214,4 +214,14 @@ public class JSONWriter implements FormatWriter {
             ps.print("null");
         }
     }
+
+    @Override
+    public boolean isAnnotated() {
+        return false; // TODO: add annotation support.
+    }
+
+    @Override
+    public void setAnnotated(boolean f) {
+        // Empty.
+    }
 }

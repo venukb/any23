@@ -83,4 +83,14 @@ public class URIListWriter implements FormatWriter {
     public void close() throws TripleHandlerException {
         this.printStream.close();
     }
+
+    @Override
+    public boolean isAnnotated() {
+        return false;
+    }
+
+    @Override
+    public void setAnnotated(boolean f) {
+        // Empty.
+    }
 }
