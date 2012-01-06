@@ -91,10 +91,14 @@ class WebResponder {
         return runner;
     }
 
-    public void runExtraction(DocumentSource in, ExtractionParameters eps, String format, boolean report)
-    throws IOException {
+    public void runExtraction(
+            DocumentSource in,
+            ExtractionParameters eps,
+            String format,
+            boolean report, boolean annotate
+    ) throws IOException {
         if (in == null) return;
-        if (!initRdfWriter(format, report)) return;
+        if (!initRdfWriter(format, report, annotate)) return;
         final ExtractionReport er;
         try {
             er = runner.extract(eps, in, rdfWriter);
@@ -223,7 +227,7 @@ class WebResponder {
         ps.println("<data>");
         ps.println("<![CDATA[");
         try {
-            ps.write(byteOutStream.toByteArray());
+            ps.write(data);
         } catch (IOException ioe) {
             ps.println("An error occurred while serializing data.");
             ioe.printStackTrace(ps);
@@ -254,8 +258,8 @@ class WebResponder {
         }
     }
 
-    private boolean initRdfWriter(String format, boolean report) throws IOException {
-        final FormatWriter fw = getFormatWriter(format);
+    private boolean initRdfWriter(String format, boolean report, boolean annotate) throws IOException {
+        final FormatWriter fw = getFormatWriter(format, annotate);
         if (fw == null) {
             sendError(
                     400,
@@ -276,7 +280,7 @@ class WebResponder {
         return true;
     }
 
-    private FormatWriter getFormatWriter(String format) throws IOException {
+    private FormatWriter getFormatWriter(String format, boolean annotate) throws IOException {
         final String finalFormat;
         if ("rdf".equals(format) || "xml".equals(format) || "rdfxml".equals(format)) {
             finalFormat = "rdfxml";
@@ -295,7 +299,9 @@ class WebResponder {
         } else {
             return null;
         }
-        return writerRegistry.getWriterInstanceByIdentifier(finalFormat, byteOutStream);
+        final FormatWriter writer = writerRegistry.getWriterInstanceByIdentifier(finalFormat, byteOutStream);
+        writer.setAnnotated(annotate);
+        return writer;
     }
 
 }
