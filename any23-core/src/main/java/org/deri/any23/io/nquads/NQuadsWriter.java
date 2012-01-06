@@ -128,7 +128,13 @@ public class NQuadsWriter implements RDFWriter {
     }
 
     public void handleComment(String comment) throws RDFHandlerException {
-        // Empty.
+        try {
+            writer.write("# ");
+            writer.write(comment);
+            writer.append('\n');
+        } catch (IOException ioe) {
+            throw new RDFHandlerException("An error occurred while printing comment.", ioe);
+        }
     }
 
     /**
