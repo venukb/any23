@@ -6,7 +6,7 @@ We agreed with the new Apache Any23 team to migrate every project
 
 resource from the current Google Code site{{{[3]}}} to the new Apache site{{{[4]}}} 
 
-starting from release 0.7.0 .
+starting from release 0.6.1 .
 
 Every contribution is always welcome and will be held according 
 
